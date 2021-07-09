@@ -4,6 +4,28 @@ const questionContainerElement = document.getElementById("question-container")
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
 
+// timer things
+const startingMinutes = 1;
+let time = startingMinutes * 60;
+
+const countdownEl = document.getElementById('countdown');
+
+setInterval(updateCountdown, 1000);
+
+function updateCountdown() {
+    const minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+
+    countdownEl.innerHTML = `${minutes}:${seconds}`;
+    if (time >= "0:00") {
+        time = "0:00";
+    } else {
+    time--;
+    }
+}
+
+
+
 let shuffledQuestions 
 
 let currentQuestionIndex
@@ -16,7 +38,6 @@ nextButton.addEventListener('click', () => {
 })
 
 function startQuiz() {
-    console.log("Started!")
     startButton.classList.add('hide')
     shuffledQuestions = questions.sort(() => Math.random() - .5)
     currentQuestionIndex = 0
@@ -38,13 +59,14 @@ function showQuestion(question) {
         button.classList.add('btn')
         if (answer.correct) {
             button.dataset.correct = answer.correct
-        }
+        } 
         button.addEventListener('click', selectAnswer)
         answerButtonsElement.appendChild(button)
     })
 }
 
 function resetState() {
+    clearStatusClass(document.body)
     nextButton.classList.add('hide')
     while (answerButtonsElement.firstChild) {
         answerButtonsElement.removeChild(answerButtonsElement.firstChild)
@@ -61,20 +83,32 @@ function selectAnswer(e) {
     if (shuffledQuestions.length > currentQuestionIndex + 1) {
         nextButton.classList.remove('hide')
     } else {
-        startButton.innerText = 'Restart'
-        startButton.classList.remove('hide')
+        nextButton.innerText = 'Restart'
+        nextButton.classList.remove('hide')
     }
-    
 }
 
 function setStatusClass(element, correct) {
     clearStatusClass(element) 
         if (correct) {
-            element.classList.add('correct')
+            element.classList.add('correct');
         } else {
-            element.classList.add('wrong')
+            element.classList.add('wrong');
         }
 }
+
+
+// function captureRightWrong(selectedButton) {
+//     if (correct) {
+//         numberRight++
+//     } else {
+//         numberWrong++
+//     }
+// }
+// console.log('number right: ' + numberRight);
+// console.log('number wrong: ' + numberWrong);
+
+
 
 function clearStatusClass(element) {
     element.classList.remove('correct')
@@ -147,7 +181,7 @@ const questions = [
         answers: [
             { text: 'stylesheet', correct: false},
             { text: 'script.js', correct: false},
-            { text: 'READNE.md', correct: false},
+            { text: 'README.md', correct: false},
             { text: 'index.html', correct: true}
         ]
     },
@@ -165,7 +199,7 @@ const questions = [
     {
         question: 'What is the term for software that is licensed for free use?',
         answers: [
-            { text: 'object oriented', correct: true},
+            { text: 'object oriented', correct: false},
             { text: 'open-source', correct: true},
             { text: 'logic driven', correct: false},
             { text: 'intuitive design', correct: false}
@@ -184,3 +218,6 @@ const questions = [
 
    
 ]
+
+
+
