@@ -9,3 +9,6 @@
 !["shot of quiz in action"](assets/screenshot.png)
 
 
+## url: https://thomascupchurch.github.io/coding-quiz/
+
+## repository: https://github.com/thomascupchurch/coding-quiz
