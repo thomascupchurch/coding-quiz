@@ -1,12 +1,15 @@
-const startButton = document.getElementById('start-btn')
-const nextButton = document.getElementById('next-btn')
-const questionContainerElement = document.getElementById("question-container")
-const questionElement = document.getElementById('question')
-const answerButtonsElement = document.getElementById('answer-buttons')
+
+var questionArr = [];
+var finalScore = 0;
+const startButton = document.getElementById("start-btn");
+const questionBox = document.getElementById("question");
+
+startButton.addEventListener("click", startGame);
+
 
 
 // start of countdown timer 
-var timeRemaining = 90;
+var timeRemaining = 5;
 
 const timerEl = document.getElementById('countdown');
 
@@ -27,122 +30,37 @@ function timerCountdown() {
 }
 // end of timer function
 
+let questionIndex = [0];
 
-let shuffledQuestions 
+function showQuestion() {
+    questionBox.textContent = questions[questionIndex.question];
+    for (var i=0; i < 10; i++) {
+        console.log(question);
+    }
+}
 
-let currentQuestionIndex
+function evaluateAnswer() {
+    console.log("answer correct: " + correct)
+}
 
-startButton.addEventListener('click', startQuiz)
+// Main game function
+function startGame() {
+    console.log("start button clicked");
 
-nextButton.addEventListener('click', () => {
-    currentQuestionIndex++
-    setNextQuestion()
-})
-
-function startQuiz() {
-    startButton.classList.add('hide')
-    shuffledQuestions = questions.sort(() => Math.random() - .5)
-    currentQuestionIndex = 0
-    questionContainerElement.classList.remove('hide')
-    setNextQuestion()
     timerCountdown();
-}
 
-function setNextQuestion() {
-    resetState()
-    showQuestion(shuffledQuestions[currentQuestionIndex])
-  
-}
-
-function showQuestion(question) {
-    questionElement.innerText = question.question
-    question.answers.forEach(answer => {
-        const button = document.createElement('button')
-        button.innerText = answer.text
-        button.classList.add('btn')
-        if (answer.correct) {
-            button.dataset.correct = answer.correct
-        } 
-        button.addEventListener('click', selectAnswer)
-        answerButtonsElement.appendChild(button)
-    })
-}
-
-function resetState() {
-    clearStatusClass(document.body)
-    nextButton.classList.add('hide')
-    while (answerButtonsElement.firstChild) {
-        answerButtonsElement.removeChild(answerButtonsElement.firstChild)
-    }
+    showQuestion();
 }
 
 
 
-function selectAnswer(e) {
-    
-    
-
-    function endGame() {
-        alert("Enter your initials!")
-        document.getElementById("score").classList.remove("hide");
-        document.getElementById("initials").classList.remove("hide");
-        document.getElementById('save-btn').classList.remove("hide");
-        const playerInitials = document.getElementById("initials");
-        const finalScore = document.getElementById("score");
-        const saveButton = document.getElementById("save-btn");
-        saveButton.addEventListener("click", saveStats());
-        
-        function saveStats() {
-            
-            console.log("final score is " + finalScore.textContent + " and initials are " + playerInitials.textContent);
-        } 
-    }
-    
-    
-    
-    const selectedButton = e.target
-    const correct = selectedButton.dataset.correct
-    setStatusClass(document.body, correct)
-    Array.from(answerButtonsElement.children).forEach(button => [
-        setStatusClass(button, button.dataset.correct)
-    ])
-    if (shuffledQuestions.length > currentQuestionIndex + 1) {
-        nextButton.classList.remove('hide')
-    } else {
-        startButton.innerText = 'Restart';
-        startButton.classList.remove('hide');
-        document.getElementById('score').innerHTML = timerEl.textContent;
-        endGame();
-        }
-    }
-
-
-function setStatusClass(element, correct) {
-    clearStatusClass(element) 
-        if (correct) {
-            element.classList.add('correct');
-        } else {
-            element.classList.add('wrong');
-        }
-}
-
-
-// function captureRightWrong(selectedButton) {
-//     if (correct) {
-//         numberRight++
-//     } else {
-//         numberWrong++
-//     }
-// }
-// console.log('number right: ' + numberRight);
-// console.log('number wrong: ' + numberWrong);
 
 
 
-function clearStatusClass(element) {
-    element.classList.remove('correct')
-    element.classList.remove('wrong')
-}
+
+
+
+// Questions Array
 
 const questions = [
     {
@@ -247,6 +165,3 @@ const questions = [
 
    
 ]
-
-
-
