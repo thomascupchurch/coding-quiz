@@ -77,25 +77,31 @@ function resetState() {
 }
 
 
+function saveStats() {
+            
+    var highScores = JSON.parse(localStorage.getItem(scoresIndex))
+    var savedScores = document.querySelector();
+    
+} 
+
+
+
+        const playerInitials = document.getElementById("initials");
+        const finalScore = document.getElementById("score");
+        const saveButton = document.getElementById("save-btn");
+        
+        
 
 function selectAnswer(e) {
     
-    
-
     function endGame() {
         alert("Enter your initials!")
         document.getElementById("score").classList.remove("hide");
         document.getElementById("initials").classList.remove("hide");
         document.getElementById('save-btn').classList.remove("hide");
-        const playerInitials = document.getElementById("initials");
-        const finalScore = document.getElementById("score");
-        const saveButton = document.getElementById("save-btn");
         saveButton.addEventListener("click", saveStats());
-        
-        function saveStats() {
-            
-            console.log("final score is " + finalScore.textContent + " and initials are " + playerInitials.textContent);
-        } 
+        document.getElementById('save-btn').inputMode;
+        saveStats();
     }
     
     
@@ -113,6 +119,7 @@ function selectAnswer(e) {
         startButton.classList.remove('hide');
         document.getElementById('score').innerHTML = timerEl.textContent;
         endGame();
+        localStorage.setItem('playerInitials', 'finalScore');
         }
     }
 
@@ -125,18 +132,6 @@ function setStatusClass(element, correct) {
             element.classList.add('wrong');
         }
 }
-
-
-// function captureRightWrong(selectedButton) {
-//     if (correct) {
-//         numberRight++
-//     } else {
-//         numberWrong++
-//     }
-// }
-// console.log('number right: ' + numberRight);
-// console.log('number wrong: ' + numberWrong);
-
 
 
 function clearStatusClass(element) {
