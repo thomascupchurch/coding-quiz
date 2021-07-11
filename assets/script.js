@@ -1,8 +1,8 @@
-const startButton = document.getElementById('start-btn')
-const nextButton = document.getElementById('next-btn')
-const questionContainerElement = document.getElementById("question-container")
-const questionElement = document.getElementById('question')
-const answerButtonsElement = document.getElementById('answer-buttons')
+const startButton = document.getElementById('start-btn');
+const nextButton = document.getElementById('next-btn');
+const questionContainerElement = document.getElementById("question-container");
+const questionElement = document.getElementById('question');
+const answerButtonsElement = document.getElementById('answer-buttons');
 
 
 // start of countdown timer 
@@ -27,63 +27,54 @@ function timerCountdown() {
 }
 // end of timer function
 
+// to randomize presentation of questions - got this from cited youtube video
+let shuffledQuestions;
 
-let shuffledQuestions 
+let currentQuestionIndex;
 
-let currentQuestionIndex
-
-startButton.addEventListener('click', startQuiz)
+startButton.addEventListener('click', startQuiz);
 
 nextButton.addEventListener('click', () => {
-    currentQuestionIndex++
-    setNextQuestion()
+    currentQuestionIndex++;
+    setNextQuestion();
 })
 
 function startQuiz() {
-    startButton.classList.add('hide')
-    shuffledQuestions = questions.sort(() => Math.random() - .5)
-    currentQuestionIndex = 0
-    questionContainerElement.classList.remove('hide')
-    setNextQuestion()
+    startButton.classList.add('hide');
+    shuffledQuestions = questions.sort(() => Math.random() - .5);
+    currentQuestionIndex = 0;
+    questionContainerElement.classList.remove('hide');
+    setNextQuestion();
     timerCountdown();
 }
 
 function setNextQuestion() {
-    resetState()
-    showQuestion(shuffledQuestions[currentQuestionIndex])
+    resetState();
+    showQuestion(shuffledQuestions[currentQuestionIndex]);
   
 }
 
 function showQuestion(question) {
-    questionElement.innerText = question.question
+    questionElement.innerText = question.question;
     question.answers.forEach(answer => {
-        const button = document.createElement('button')
-        button.innerText = answer.text
-        button.classList.add('btn')
+        const button = document.createElement('button');
+        button.innerText = answer.text;
+        button.classList.add('btn');
         if (answer.correct) {
-            button.dataset.correct = answer.correct
+            button.dataset.correct = answer.correct;
         } 
-        button.addEventListener('click', selectAnswer)
-        answerButtonsElement.appendChild(button)
-    })
+        button.addEventListener('click', selectAnswer);
+        answerButtonsElement.appendChild(button);
+    });
 }
 
 function resetState() {
-    clearStatusClass(document.body)
-    nextButton.classList.add('hide')
+    clearStatusClass(document.body);
+    nextButton.classList.add('hide');
     while (answerButtonsElement.firstChild) {
-        answerButtonsElement.removeChild(answerButtonsElement.firstChild)
+        answerButtonsElement.removeChild(answerButtonsElement.firstChild);
     }
 }
-
-
-function saveStats() {
-            
-    var highScores = JSON.parse(localStorage.getItem(scoresIndex))
-    var savedScores = document.querySelector();
-    
-} 
-
 
 
         const playerInitials = document.getElementById("initials");
@@ -91,27 +82,39 @@ function saveStats() {
         const saveButton = document.getElementById("save-btn");
         
         
-
+// function for dealing with user's chosen answer
 function selectAnswer(e) {
     
+
+    // function to run when all questions have been answered
     function endGame() {
         alert("Enter your initials!")
         document.getElementById("score").classList.remove("hide");
         document.getElementById("initials").classList.remove("hide");
         document.getElementById('save-btn').classList.remove("hide");
-        saveButton.addEventListener("click", saveStats());
+        saveButton.addEventListener("click", window.localStorage.setItem("initials", playerInitials.innerText));
         document.getElementById('save-btn').inputMode;
-        saveStats();
+        window.localStorage.setItem("initials", playerInitials.textContent);
+        window.localStorage.setItem("final score", finalScore);
     }
     
     
+    // function to evaluate correctness of selected answer and then to move on to next question *or* if all questions 
+    // have been answered, to display the restart button and run the endGame() program
+    const selectedButton = e.target;
+    const correct = selectedButton.dataset.correct;
     
-    const selectedButton = e.target
-    const correct = selectedButton.dataset.correct
     setStatusClass(document.body, correct)
     Array.from(answerButtonsElement.children).forEach(button => [
         setStatusClass(button, button.dataset.correct)
-    ])
+    ]);
+
+    if (selectedButton.dataset.correct = false) {
+        timeRemaining -= 10;
+    } else {
+        // do nothing
+    };
+
     if (shuffledQuestions.length > currentQuestionIndex + 1) {
         nextButton.classList.remove('hide')
     } else {
@@ -119,11 +122,10 @@ function selectAnswer(e) {
         startButton.classList.remove('hide');
         document.getElementById('score').innerHTML = timerEl.textContent;
         endGame();
-        localStorage.setItem('playerInitials', 'finalScore');
         }
     }
 
-
+// use css "correct" and "wrong" classes to change colors of buttons
 function setStatusClass(element, correct) {
     clearStatusClass(element) 
         if (correct) {
@@ -133,12 +135,13 @@ function setStatusClass(element, correct) {
         }
 }
 
-
+// remove the classes corresponding to correct and wrong
 function clearStatusClass(element) {
     element.classList.remove('correct')
     element.classList.remove('wrong')
 }
 
+// arrays within an array, composed of question: answers[text : correct]
 const questions = [
     {
         question: 'What element surrounds the contents of a function block?',
@@ -242,6 +245,8 @@ const questions = [
 
    
 ]
+
+
 
 
 
